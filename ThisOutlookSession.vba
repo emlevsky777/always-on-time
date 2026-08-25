@@ -200,12 +200,14 @@ Private Sub ZeroReminderApplyToAppointment( _
     End If
 
     If Not Appointment.ReminderOverrideDefault Then NeedsSave = True
+    If Not Appointment.ReminderPlaySound Then NeedsSave = True
 
     If NeedsSave Then
         ZeroReminderIsApplying = True
 
         Appointment.ReminderSet = True
         Appointment.ReminderOverrideDefault = True
+        Appointment.ReminderPlaySound = True
         Appointment.ReminderMinutesBeforeStart = 0
         Appointment.Save
 
