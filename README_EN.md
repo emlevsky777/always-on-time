@@ -6,6 +6,9 @@ This VBA code automatically replaces the organizer-defined reminder in your
 copy of a meeting with one built-in Outlook reminder at the meeting start time.
 The code never calls `Send` and does not send meeting updates to attendees.
 
+For processed meetings, the code also explicitly enables the reminder sound
+(`ReminderPlaySound = True`).
+
 Only timed meetings in the current Outlook profile's primary calendar are
 processed. Personal appointments without attendees, all-day events, canceled or
 declined meetings, and meetings that have already started are left unchanged.
@@ -19,8 +22,8 @@ choice to disable the reminder.
 
 - Windows and **Outlook classic**. New Outlook does not support VBA macros.
 - Permission to run VBA macros in Outlook.
-- Outlook reminders must be enabled. Windows notification settings must not
-  block Outlook notifications either.
+- Outlook reminders and reminder sounds must be enabled. Windows notification
+  and volume settings must not block Outlook notifications either.
 
 ## Installation
 
@@ -77,7 +80,7 @@ or Windows administrator must provide the required signature or permission.
 5. Close and reopen Outlook, create another test meeting with a 15-minute
    reminder, and confirm that the value changes to 0 automatically.
 6. Wait for the test meeting to start and confirm that Outlook displays its
-   built-in reminder.
+   built-in reminder and plays a sound.
 
 ## How it works
 
@@ -91,6 +94,8 @@ or Windows administrator must provide the required signature or permission.
 - `ItemChange` restores the zero-minute value after an organizer updates a
   meeting.
 - A disabled reminder on an eligible meeting is re-enabled and set to 0 minutes.
+- Eligible meetings receive `ReminderPlaySound = True`, preventing the
+  per-item reminder override from silencing the alert.
 - Before saving, the code compares values and does not write an already-correct
   meeting again.
 - For recurring meetings, the series master and existing modified occurrences
@@ -118,7 +123,8 @@ or Windows administrator must provide the required signature or permission.
 
 If the option is available in your Outlook version, open
 `File → Options → Advanced → Reminders` and enable
-**Show reminders on top of other windows**.
+**Show reminders on top of other windows**. In the same section, make sure
+**Play reminder sound** is enabled.
 
 ## Uninstallation
 
